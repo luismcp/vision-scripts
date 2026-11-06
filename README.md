@@ -6,7 +6,9 @@ Both `final-dataset.py` and `separate-images.py` require the same scaffolding to
 /Foo
     /data
         /images
+            /train
         /labels
+            /train
     final-dataset.py
     separate-images.py
 ```
