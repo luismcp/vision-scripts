@@ -1,36 +1,40 @@
 import os 
 import shutil
 
-INITIAL_DIR = 'data'
+# INITIAL_DIR = 'data'
+DIRS = ['data', 'new-data']
 FINAL_DIR = 'final'
 
 os.makedirs(f'./{FINAL_DIR}/images', exist_ok=True)
 os.makedirs(f'./{FINAL_DIR}/labels', exist_ok=True)
 
-def get_labels():
-    ids = []
-    for root, dirs, files in os.walk(f'./{INITIAL_DIR}/labels/train'):
-        for file in files:
-            name = file.split('.')[0]
-            where = f'./{INITIAL_DIR}/labels/train/{file}'
-            destiny = f'./{FINAL_DIR}/labels/{file}'
+for dir in DIRS:
+    INITIAL_DIR = dir
 
-            ids.append(name)
-            shutil.copyfile(where, destiny)
- 
-    return ids
+    def get_labels():
+        ids = []
+        for root, dirs, files in os.walk(f'./{INITIAL_DIR}/labels/train'):
+            for file in files:
+                name = file.split('.')[0]
+                where = f'./{INITIAL_DIR}/labels/train/{file}'
+                destiny = f'./{FINAL_DIR}/labels/{file}'
 
-OK_images_JSN = get_labels()
-
-def do_final_dataset():
-    for root, dirs, files in os.walk(f'./{INITIAL_DIR}/images/train'):
-
-        for file in files:
-            name = file.split('.')[0]
-
-            if name in OK_images_JSN:
-                where = f'./{INITIAL_DIR}/images/train/{file}'
-                destiny = f'./{FINAL_DIR}/images/{file}'
+                ids.append(name)
                 shutil.copyfile(where, destiny)
+    
+        return ids
 
-do_final_dataset()
+    OK_images_JSN = get_labels()
+
+    def do_final_dataset():
+        for root, dirs, files in os.walk(f'./{INITIAL_DIR}/images/train'):
+
+            for file in files:
+                name = file.split('.')[0]
+
+                if name in OK_images_JSN:
+                    where = f'./{INITIAL_DIR}/images/train/{file}'
+                    destiny = f'./{FINAL_DIR}/images/{file}'
+                    shutil.copyfile(where, destiny)
+
+    do_final_dataset()
